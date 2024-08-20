@@ -20,6 +20,7 @@ const useOneSignal = () => {
               enable: true,
               size: "large",
             },
+            // Para que solo controle las solicitudes de OS
             serviceWorkerParam: { scope: "/onesignal" },
           });
         }
