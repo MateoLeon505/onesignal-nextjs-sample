@@ -1,16 +1,18 @@
-import { appId } from "@/common/onesignal"
-import React, { useRef } from "react"
-import OneSignal from "react-onesignal"
+import { appId } from "@/common/onesignal";
+import React, { useRef, useEffect, useState } from "react";
+import OneSignal from "react-onesignal";
 
+// Hook personalizado de OneSignal
+// Inicialización OneSignal - Conexión aplicación con servicio de OneSignal
 const useOneSignal = () => {
-  const onesignalInitializingRef = useRef(false)
+  const [initializedOneSignal, setInitializedOneSignal] = useState(false);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const init = async () => {
       try {
-        if (!onesignalInitializingRef.current) {
-          console.log("Initializing OneSignal")
-          onesignalInitializingRef.current = true
+        if (!initializedOneSignal) {
+          console.log("Initializing OneSignal");
+
           await OneSignal.init({
             appId: appId,
             allowLocalhostAsSecureOrigin: true,
@@ -19,25 +21,43 @@ const useOneSignal = () => {
               size: "large",
             },
             serviceWorkerParam: { scope: "/onesignal" },
-          })
-
-          OneSignal.addListenerForNotificationOpened((notification) =>
-            console.info("Notification Opened", { notification })
-          )
-
-          OneSignal.on("notificationDisplay", (event) =>
-            console.info("Notification Display", { event })
-          )
+          });
         }
-      } catch (e) {
-        console.error("OneSignal Initilization", e)
+      } catch (error) {
+        console.error("OneSignal Initilization Error:", error);
       } finally {
-        onesignalInitializingRef.current = false
+        setInitializedOneSignal(true);
+        console.log("Ended --> OneSignal Inicialization");
       }
-    }
+    };
 
-    init()
-  }, [])
-}
+    init();
+  }, []);
+};
 
-export default useOneSignal
+export default useOneSignal;
+
+// if (!initialized) {
+//   console.log("Initializing OneSignal");
+//   // onesignalInitializingRef.current = true;
+//   // Inicialización OneSignal - Conexión aplicación con servicio de OneSignal
+//   await OneSignal.init({
+//     appId: appId,
+//     allowLocalhostAsSecureOrigin: true,
+//     notifyButton: {
+//       enable: true,
+//       size: "large",
+//     },
+//     serviceWorkerParam: { scope: "/onesignal" },
+//   });
+
+//   OneSignal.addListenerForNotificationOpened((notification) => {
+//     console.info("Notification Opened", { notification });
+//     console.log("Notification Opened", { notification });
+//   });
+
+//   OneSignal.on("notificationDisplay", (event) => {
+//     console.info("Notification Display", { event });
+//     console.log("Notification Display", { event });
+//   });
+// }

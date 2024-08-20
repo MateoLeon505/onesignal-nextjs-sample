@@ -1,10 +1,11 @@
-import * as OneSignal from "@onesignal/node-onesignal"
+import * as OneSignal from "@onesignal/node-onesignal";
 
-export const appId = process.env["NEXT_PUBLIC_APP_ID"]!
+// Configuración para interactuar con la API de OneSignal
+export const appId = process.env["NEXT_PUBLIC_APP_ID"]!;
+const userAuthKey = process.env["ONESIGNAL_USER_AUTH_KEY"]!;
 
-const userAuthKey = process.env["ONESIGNAL_USER_AUTH_KEY"]!
 const configuration = OneSignal.createConfiguration({
   appKey: appId,
   userKey: userAuthKey,
-})
-export const client = new OneSignal.DefaultApi(configuration)
+});
+export const client = new OneSignal.DefaultApi(configuration);
