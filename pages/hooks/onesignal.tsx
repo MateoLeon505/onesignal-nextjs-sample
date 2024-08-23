@@ -22,6 +22,7 @@ const useOneSignal = () => {
             },
             // Para que solo controle las solicitudes de OS
             serviceWorkerParam: { scope: "/onesignal" },
+            serviceWorkerPath: "../../public/push/._OneSignalSDKWorker.js",
           });
         }
       } catch (error) {

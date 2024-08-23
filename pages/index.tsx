@@ -40,9 +40,10 @@ const Home = () => {
         console.log("error al obtener el userID", error);
       }
     };
+    console.log(osUser);
 
     loadOneSignalUser();
-  }, [osUser]);
+  }, []);
 
   return (
     <>
